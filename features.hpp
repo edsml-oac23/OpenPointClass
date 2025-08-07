@@ -194,6 +194,78 @@ public:
     }
 };
 
+
+
+// // This is the HeighAboveGround from Cloud Compare (CC). Authors of the original code already 
+// have a HeightAbove feature, but mesh grid is better calculated in CC, so resulting in better performance.
+// class PointC2M : public Feature {
+// public:
+//     PointC2M(Scale *s) : Feature(s) {
+//         this->setName("point_c2m");
+//     };
+//     virtual float getValue(size_t i) {
+//         if (!s->pSet->hasC2MDistances()) {
+//             return 0.0f;  // Fallback if no C2M data (for safety)
+//         }
+//         return s->pSet->c2m_signed_distances[i];
+//     }
+// };
+
+
+
+// New feature: Raw point's nir value
+class Pointnir : public Feature {
+public:
+    Pointnir(Scale *s) : Feature(s) {
+        this->setName("point_nir");
+    };
+    virtual float getValue(size_t i) {
+        if (!s->pSet->hasnir()) {
+            return 0.0f;  
+        }
+        return s->pSet->nir[i];
+    }
+};
+
+
+class PointRedFused : public Feature {
+public:
+  PointRedFused(Scale *s): Feature(s) { setName("point_red_fused"); }
+  float getValue(size_t i) override {
+    return s->pSet->hasRedFused() ? s->pSet->red_fused[i] : 0.f;
+  }
+  
+};
+
+class PointGreenFused : public Feature {
+public:
+  PointGreenFused(Scale *s): Feature(s) { setName("point_green_fused"); }
+  float getValue(size_t i) override {
+    return s->pSet->hasGreenFused() ? s->pSet->green_fused[i] : 0.f;
+  }
+};
+
+class PointRedEdge : public Feature {
+public:
+  PointRedEdge(Scale *s): Feature(s) { setName("point_red_edge"); }
+  float getValue(size_t i) override {
+    return s->pSet->hasRedEdge() ? s->pSet->red_edge[i] : 0.f;
+  }
+};
+
+
+class PointNDVI       : public Feature {
+public:
+  PointNDVI(Scale*s):Feature(s){setName("point_ndvi");}
+  float getValue(size_t i) override {
+    return s->pSet->hasNDVI() ? s->pSet->ndvi[i] : 0.f;
+  }
+};
+
+
+
+
+
 std::vector<Feature *> getFeatures(const std::vector<Scale *> &scales);
 
 #endif

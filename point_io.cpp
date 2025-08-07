@@ -3,7 +3,6 @@
 
 #include "point_io.hpp"
 #include "labels.hpp"
-
 namespace fs = std::filesystem;
 
 double PointSet::spacing(int kNeighbors) {
@@ -219,6 +218,8 @@ PointSet *fastPlyReadPointSet(const std::string &filename) {
     if (hasViews) r->views.resize(count);
     if (hasLabels) r->labels.resize(count);
 
+    
+
     // if (hasNormals) std::cout << "N";
     // if (hasColors) std::cout << "C";
     // if (hasViews) std::cout << "V";
@@ -345,6 +346,15 @@ PointSet *pdalReadPointSet(const std::string &filename) {
 
     std::cout << "Number of points: " << pView->size() << std::endl;
 
+    std::cout << "=== Listing all PDAL dims for " << filename << " ===\n";
+    for (auto d : pView->dims()) {
+        std::cout << "  Dim: " << pView->dimName(d) << "\n";
+    }
+    std::cout << "============================================\n";
+
+
+
+    
     for (const auto &d : pView->dims()) {
         std::string dim = pView->dimName(d);
         if (dim == "Label" || dim == "label" ||
@@ -363,11 +373,47 @@ PointSet *pdalReadPointSet(const std::string &filename) {
         std::cout << "Label dimension: " << labelDimension << std::endl;
         labelId = layout->findDim(labelDimension);
         r->labels.resize(count);
-    }
+    
 
     r->points.resize(count);
     bool hasColors = false;
     bool largeColors = false;
+
+        // ─── reserve spectrals start ────────────────────────────────
+    pdal::Dimension::Id redFusedDim   = layout->findDim("red_fused");
+    pdal::Dimension::Id greenFusedDim = layout->findDim("green_fused");
+    pdal::Dimension::Id nirDim        = layout->findDim("nir");
+    pdal::Dimension::Id redEdgeDim    = layout->findDim("red_edge");
+    pdal::Dimension::Id ndviDim      = layout->findDim("ndvi");
+
+    bool hasRedFused   = (redFusedDim   != pdal::Dimension::Id::Unknown);
+    bool hasGreenFused = (greenFusedDim != pdal::Dimension::Id::Unknown);
+    bool hasnir        = (nirDim        != pdal::Dimension::Id::Unknown);
+    bool hasRedEdge    = (redEdgeDim    != pdal::Dimension::Id::Unknown);
+    bool hasNDVI       = (ndviDim       != pdal::Dimension::Id::Unknown);
+
+    if (hasRedFused)   {
+        r->red_fused.resize(count);
+        std::cout << "Red Fused dimension found\n";
+    }
+    if (hasGreenFused) {
+        r->green_fused.resize(count);
+        std::cout << "Green Fused dimension found\n";
+    }
+    if (hasnir) {
+        r->nir.resize(count);
+        std::cout << "NIR dimension found\n";
+    }
+    if (hasRedEdge) {
+        r->red_edge.resize(count);
+        std::cout << "Red Edge dimension found\n";
+    }
+    if (hasNDVI) {
+        r->ndvi.resize(count);
+        std::cout << "NDVI dimension found\n";
+    }
+    ////-------reserve spectrals end
+
 
     if (layout->hasDim(pdal::Dimension::Id::Green)) {
         r->colors.resize(count);
@@ -402,6 +448,21 @@ PointSet *pdalReadPointSet(const std::string &filename) {
         if (hasLabels) {
             r->labels[idx] = p.getFieldAs<uint8_t>(labelId);
         }
+
+                // ─── start read spectral into  vector ──────────────────────────────────
+        if (hasRedFused)
+            r->red_fused[idx]   = pView->getFieldAs<float>(redFusedDim, idx);
+        if (hasGreenFused)
+            r->green_fused[idx] = pView->getFieldAs<float>(greenFusedDim, idx);
+        if (hasnir)
+            r->nir[idx]         = pView->getFieldAs<float>(nirDim, idx);
+        if (hasRedEdge)
+            r->red_edge[idx]    = pView->getFieldAs<float>(redEdgeDim, idx);
+        if (hasNDVI)
+            r->ndvi[idx]        = pView->getFieldAs<float>(ndviDim, idx);
+                // ----ends read spectral into  vector --------------------------------
+    }
+        
     }
 
     // std::vector<std::size_t> classes (255, 0);

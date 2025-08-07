@@ -20,6 +20,8 @@ struct Scale {
     std::vector<float> heightMin;
     std::vector<float> heightMax;
     std::vector<std::array<float, 3> > avgHsv;
+    
+    //std::vector<float> avgC2M; // NEW: average C2M in neighborhood
 
     Eigen::Matrix3d computeCovariance(const std::vector<size_t> &neighborIds, const Eigen::Vector3f &medoid);
     Eigen::Vector3f computeMedoid(const std::vector<size_t> &neighborIds);

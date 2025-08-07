@@ -32,6 +32,17 @@ std::vector<Feature *> getFeatures(const std::vector<Scale *> &scales) {
         }
     }
 
-
+    //feats.push_back(new PointC2M(scales[0])); // added C2M feature
+    feats.push_back(new Pointnir(scales[0])); // added nir feature
+    feats.push_back(new PointRedFused(scales[0])); // added red_fused feature
+    feats.push_back(new PointGreenFused(scales[0])); // added green_fused feature
+    feats.push_back(new PointRedEdge(scales[0])); // added red_edge feature
+    feats.push_back(new PointNDVI(scales[0])); // added ndvi feature
+    
     return feats;
 }
+
+
+
+
+  

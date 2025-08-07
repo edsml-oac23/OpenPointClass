@@ -23,6 +23,11 @@ void Scale::init() {
         if (id == 1) {
             avgHsv.resize(pSet->count());
         }
+//     if (id == 1 && pSet->hasC2MDistances()) {
+//         avgC2M.resize(pSet->count(), 0.0f);
+// }
+
+
     }
 
     computeScaledSet();

@@ -28,6 +28,17 @@ struct XYZ {
 struct PointSet {
     std::vector<std::array<float, 3> > points;
     std::vector<std::array<uint8_t, 3> > colors;
+    //std::vector<float> c2m_signed_distances; // MODIFIED: included to handle extra dimensions
+    
+    //std::vector<float> nir; // new modified spectral
+    // //NEW: spectral bands
+    std::vector<float> red_fused;
+    std::vector<float> green_fused;
+    std::vector<float> nir;
+    std::vector<float> red_edge;
+    std::vector<float> ndvi;
+    
+
 
     std::vector<std::array<float, 3> > normals;
     std::vector<uint8_t> labels;
@@ -75,6 +86,16 @@ struct PointSet {
 
     bool hasNormals() const { return normals.size() > 0; }
     bool hasColors() const { return colors.size() > 0; }
+    //bool hasC2MDistances() const { return c2m_signed_distances.size() > 0; }  // MODIFIED: optional for safety
+    
+    // START: spectral bands
+    bool hasRedFused() const { return red_fused.size() > 0; }
+    bool hasGreenFused() const { return green_fused.size() > 0; }
+    bool hasRedEdge() const { return red_edge.size() > 0; }
+    bool hasnir() const { return nir.size() > 0; }
+    bool hasNDVI() const { return ndvi.size() > 0; }
+    // END: new spectral bands
+
     bool hasViews() const { return views.size() > 0; }
     bool hasLabels() const { return labels.size() > 0; }
 

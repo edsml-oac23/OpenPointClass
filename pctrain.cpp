@@ -78,6 +78,19 @@ int main(int argc, char **argv) {
         std::cout << "Using " << (classifier == "rf" ? "Random Forest" : "Gradient Boosted Trees") << std::endl;
 
         if (classifier == "rf") {
+
+            // --- Start of New Code ---
+            // Manually load the training data to inspect it
+            std::cout << "--- Pre-flight check for training ---" << std::endl;
+            auto trainPointSet = readPointSet(filenames[0]);
+            auto trainScales = computeScales(scales, trainPointSet, startResolution, radius);
+            auto trainFeatures = getFeatures(trainScales);
+            std::cout << "TRAINING FEATURES: " << trainFeatures.size() << std::endl;
+            std::cout << "--- End of Pre-flight check ---\n" << std::endl;
+            RELEASE_POINTSET(trainPointSet); // Clean up memory
+            // --- End of New Code ---
+
+
             rf::RandomForest *rtrees = rf::train(filenames, &startResolution, scales, numTrees, treeDepth, radius, maxSamples, classes);
             rf::saveForest(rtrees, modelFilename);
             delete rtrees;
