@@ -1,4 +1,3 @@
-````markdown
 <div align="center">
 
 # OpenPointClass — Spectral
@@ -11,11 +10,11 @@ This is a research fork of [`uav4geo/OpenPointClass`](https://github.com/uav4geo
 
 ---
 
-##  What It Does
+## What It Does
 
 This fork extends the original **OpenPointClass (OPC)** to accept **per-point spectral features** (e.g., NIR, Red Edge, NDVI) **alongside** OPC’s native geometric descriptors (like planarity, linearity, omnivariance).
 
-> **Important clarification**:  
+> **Important clarification**:
 > This extension does not perform data fusion. The fusion of LiDAR and multispectral data must be done **externally**, prior to using this tool. We recommend using **PDAL** for this task, as it enables robust, scalable point cloud processing and attribute injection.
 
 The notebook included in the project provides step-by-step guidance on how to perform the fusion using PDAL, including normalization, NDVI computation, and colorization of the point cloud.
@@ -29,14 +28,15 @@ This C++ extension assumes that spectral attributes are already present in the i
 Use Docker to avoid environment conflicts and to keep runs reproducible across machines.
 
 **A) Baseline (vanilla OPC, geometry-only):**
-- Pull upstream image and run it, mounting your repo and data:
+
+* Pull upstream image and run it, mounting your repo and data:
+
   ```bash
   docker pull uav4geo/openpointclass:latest
   docker run --rm -it --cpus=4 \
     -v "$PWD":/workspace -v /path/to/data:/data \
     uav4geo/openpointclass:latest bash
-````
-
+  ```
 * Inside the container, use the **prebuilt** executables `/build/pctrain` and `/build/pcclassify` on geometry-only `.las`.
   *(This establishes the baseline with the authors’ binaries.)*
 
@@ -218,6 +218,3 @@ See [LICENSE](LICENSE) for details.
 
 > **Questions or ideas?**
 > Open an issue or reach out. Let’s build better tools for **open, accessible 3D environmental analysis**.
-
-```
-```
