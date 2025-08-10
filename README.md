@@ -1,31 +1,175 @@
-###  Fork Notice
-This is a research fork of [uav4geo/OpenPointClass](https://github.com/uav4geo/OpenPointClass)  
-with added support for **multispectral point cloud features**.
+```markdown
+<div align="center">
 
-### What it does?
-OpenPointClass — Spectral
-Spectrally-augmented point clouds for semantic segmentation (UAV LiDAR + multispectral)
+# OpenPointClass — Spectral
 
-This fork extends the original OpenPointClass (OPC) to accept per-point spectral features alongside the geometric neighborhood descriptors computed from XYZ. The goal is to make low-cost UAV LiDAR + multispectral missions more useful: geometry tells you shape (planarity, linearity, etc.), while spectra hint at material/vegetation. Together they improve class separability without the cost of airborne hyperspectral systems.
+### Spectrally-augmented point clouds for semantic segmentation (UAV LiDAR + multispectral)
 
-main branch → vanilla OPC (geometry only).
+This is a research fork of [`uav4geo/OpenPointClass`](https://github.com/uav4geo/OpenPointClass) with added support for **multispectral point cloud features**.
 
-feature/spectral-implementation branch → adds spectral point features (this work).
+</div>
 
-Results here should be read as conservative regarding spectral gains. The C++ integration is minimal by design; deeper feature design and parameterization may further improve performance.
+---
 
-What’s new (this fork)
-We add point-wise features read from LAS and forwarded into the learner:
+##  What It Does
 
-nir, red_fused, green_fused, red_edge, ndvi
+This fork extends the original **OpenPointClass (OPC)** to accept **per-point spectral features** (e.g., NIR, Red Edge, NDVI) **alongside** OPC’s native geometric descriptors (like planarity, linearity, omnivariance).
 
-(optional) c2m = height above ground (a relative Z; can be computed externally)
+> **Important clarification**:  
+> This extension does not perform data fusion. The fusion of LiDAR and multispectral data must be done **externally**, prior to using this tool. We recommend using **PDAL** for this task, as it enables robust, scalable point cloud processing and attribute injection.
 
-Naming note: keep these field names exactly as above in your .las files.
+The notebook included in the project provides step-by-step guidance on how to perform the fusion using PDAL, including normalization, NDVI computation, and colorization of the point cloud.
 
-OPC still computes its geometric multi-scale features from XYZ. Your spectral bands are additional inputs to the classifier.
+This C++ extension assumes that spectral attributes are already present in the input `.las` file. It does not include functionality for image-to-point registration, raster sampling, or co-registration — these steps are expected to be completed beforehand.
+---
+
+## Branches Overview
+
+| Branch | Purpose |
+|-------|--------|
+| `main` | Vanilla OPC — geometry-only features (original baseline) |
+| `feature/spectral-implementation` | This work: adds spectral features to the classifier |
+
+>  **Note**: Results using this fork should be seen as **conservative**. The C++ integration is minimal; deeper fusion strategies (e.g., attention, normalization) could further boost performance.
+
+---
 
 
-### Why it matters?
+## What’s New (This Fork)
 
-### How to use it
+We add the following **per-point spectral features** from a fused `.las` file directly into the classifier:
+
+- `nir`
+- `red_fused`
+- `green_fused`
+- `red_edge`
+- `ndvi`
+- (optional) `c2m` = height above ground (relative Z). We suggest using Cloud Compare to calculate it.
+
+### Naming Note
+Keep the field names **exactly as above** in your `.las` files.  
+Avoid spaces, capitalization, or typos (e.g., use `red_fused`, not `RedFused` or `red-fused`).
+
+> OPC still computes its **multi-scale geometric features** from `X,Y,Z`.  
+> These spectral bands are **additional inputs** — no changes to the core feature engine.
+
+---
+
+> **Why?**  
+> - **Geometry** tells you *shape* (flat roof, linear wire, bushy tree).  
+> - **Spectra** tell you *material* (healthy vegetation, bare soil, asphalt).  
+> Together, they improve class separability — especially in complex scenes like tropical farms — **without needing expensive hyperspectral sensors**.
+
+Perfect for **low-cost UAV LiDAR + multispectral** missions.
+---
+
+## Why This Matters
+
+Many UAVs carry **LiDAR + multispectral cameras** together. This fork lets you:
+- Fuse spectral data at the **point level**
+- Use both **shape + reflectance** in one fast, CPU-friendly model
+- Improve separation of classes like:
+  - **Shrub vs. Roof** (both planar, but different spectra)
+  - **Tree vs. Chayote vine** (similar structure, different NDVI)
+
+No voxelization. No rasterization. Just better 3D segmentation.
+
+---
+
+## How to Use It
+
+### 1. Prepare Your Data
+
+Ensure your `.las` files contain these dimensions:
+```
+X, Y, Z, Intensity, ReturnNumber, NumberOfReturns, Classification,
+nir, red_fused, green_fused, red_edge, ndvi, (optional: c2m)
+```
+
+We use ASPRS class codes:
+- `2` = ground  
+- `3` = chayote  
+- `4` = shrubs  
+- `5` = trees  
+- `6` = buildings  
+- `14` = wires
+
+### 2. Build the Binary
+
+Inside your dev container:
+
+```bash
+cd /workspace
+git checkout feature/spectral-implementation
+
+cmake -S . -B build-spec -DCMAKE_BUILD_TYPE=Release -DWITH_GBT=ON
+cmake --build build-spec -j$(nproc)
+```
+
+### 3. Train with Spectral Features
+
+```bash
+/workspace/build-spec/pctrain "/data/02_data_labeled/TRAIN_small.las" \
+  --classes 2,3,4,5,6,14 --trees 200 --depth 28 --scales 8 --radius 0.16 \
+  -o "/data/03_models/spec_rf.bin" \
+  --eval "/data/02_data_labeled/VAL_small.las" \
+  --eval-result "/data/04_predictions/spec_rf_eval.las"
+```
+
+### 4. Classify Test Set
+
+```bash
+/workspace/build-spec/pcclassify \
+  "/data/02_data_labeled/TEST_small.las" \
+  "/data/04_predictions/spec_rf_TEST.las" \
+  "/data/03_models/spec_rf.bin"
+```
+
+---
+
+## Project Structure (Expected)
+
+Put your data under:
+```
+opc_process/
+  02_data_labeled/     ← TRAIN/VAL/TEST_small.las
+  03_models/           ← saved .bin models
+  04_predictions/      ← output .las files
+  06_tuning_stats/     ← JSON stats from training
+  07_Notebook/         ← Jupyter notebooks (optional)
+```
+
+---
+
+## Notebook Support
+
+Use the provided notebook (`IRP_base_code.ipynb`) to:
+- Stream large LAS files safely
+- Run training & evaluation
+- Compute metrics (OA, F1, IoU)
+- Plot results
+
+Set:
+```python
+BIN = "spec"  # for spectral build
+```
+
+---
+
+## License
+
+Same as upstream: **GNU Affero General Public License (AGPL) v3**  
+See [LICENSE](LICENSE) for details.
+
+---
+
+## Credits
+
+- **Original OPC**: [uav4geo/OpenPointClass](https://github.com/uav4geo/OpenPointClass)
+- **This fork**: Oscar Calva (edsml-oac23) — part of MSc IRP at Imperial College London
+
+---
+
+> **Questions or ideas?**  
+> Open an issue or reach out. Let’s build better tools for **open, accessible 3D environmental analysis**.
+```
