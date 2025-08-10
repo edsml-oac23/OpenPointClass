@@ -10,6 +10,20 @@ This is a research fork of [`uav4geo/OpenPointClass`](https://github.com/uav4geo
 
 ---
 
+## Why This Matters
+
+Many UAVs carry **LiDAR + multispectral cameras** together, but analysis tend to be made separately. This proposal is an starting point to exploit **low-cost UAV LiDAR + multispectral** missions **without needing expensive hyperspectral sensors**. This fork lets you:
+
+* Use both **shape + reflectance** in one fast, CPU-friendly model
+* Improve separation of classes like:
+
+  * **Shrub vs. Roof** (both planar, but different spectra)
+  * **Tree vs. Chayote vine** (similar structure, different NDVI)
+
+No voxelization. No rasterization. Just better 3D segmentation.
+
+---
+
 ## What It Does
 
 This fork extends the original **OpenPointClass (OPC)** to accept **per-point spectral features** (e.g., NIR, Red Edge, NDVI) **alongside** OPC’s native geometric descriptors (like planarity, linearity, omnivariance).
@@ -90,32 +104,8 @@ Avoid spaces, capitalization, or typos (e.g., use `red_fused`, not `RedFused` or
 > OPC still computes its **multi-scale geometric features** from `X,Y,Z`.
 > These spectral bands are **additional inputs** — no changes to the core feature engine.
 
----
 
-> **Why?**
->
-> * **Geometry** tells you *shape* (flat roof, linear wire, bushy tree).
-> * **Spectra** tell you *material* (healthy vegetation, bare soil, asphalt).
->   Together, they improve class separability — especially in complex scenes like tropical farms — **without needing expensive hyperspectral sensors**.
 
-Perfect for **low-cost UAV LiDAR + multispectral** missions.
-
----
-
-## Why This Matters
-
-Many UAVs carry **LiDAR + multispectral cameras** together. This fork lets you:
-
-* Fuse spectral data at the **point level**
-* Use both **shape + reflectance** in one fast, CPU-friendly model
-* Improve separation of classes like:
-
-  * **Shrub vs. Roof** (both planar, but different spectra)
-  * **Tree vs. Chayote vine** (similar structure, different NDVI)
-
-No voxelization. No rasterization. Just better 3D segmentation.
-
----
 
 ## How to Use It
 
