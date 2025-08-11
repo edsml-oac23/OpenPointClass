@@ -1,0 +1,10 @@
+# Hashes of file build rules.
+a9677a4eec5418c92c634fa37d3d1bb0 CMakeFiles/lightgbm
+2903ef369fd433fcc3f9b0e664e6aeee CMakeFiles/lightgbm-complete
+81f0177a0c92f76c79f4a261eda8352d lightgbm-prefix/src/lightgbm-stamp/lightgbm-build
+de740f9e78de9632d0335aab2006fe71 lightgbm-prefix/src/lightgbm-stamp/lightgbm-configure
+31bce6875d4e50c75b1569bcd8f027dc lightgbm-prefix/src/lightgbm-stamp/lightgbm-download
+a715278f4275bbac5150c363d0e65def lightgbm-prefix/src/lightgbm-stamp/lightgbm-install
+ccf19999d4449ab6273715346b829e55 lightgbm-prefix/src/lightgbm-stamp/lightgbm-mkdir
+2d062afceda86e4801b3ea60a5af3042 lightgbm-prefix/src/lightgbm-stamp/lightgbm-patch
+5bd99da4281ffc40c81f8d6f2ac7bbbc lightgbm-prefix/src/lightgbm-stamp/lightgbm-update

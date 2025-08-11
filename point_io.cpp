@@ -385,12 +385,14 @@ PointSet *pdalReadPointSet(const std::string &filename) {
     pdal::Dimension::Id nirDim        = layout->findDim("nir");
     pdal::Dimension::Id redEdgeDim    = layout->findDim("red_edge");
     pdal::Dimension::Id ndviDim      = layout->findDim("ndvi");
+    pdal::Dimension::Id c2MDim = layout->findDim("c2m");
 
     bool hasRedFused   = (redFusedDim   != pdal::Dimension::Id::Unknown);
     bool hasGreenFused = (greenFusedDim != pdal::Dimension::Id::Unknown);
     bool hasnir        = (nirDim        != pdal::Dimension::Id::Unknown);
     bool hasRedEdge    = (redEdgeDim    != pdal::Dimension::Id::Unknown);
     bool hasNDVI       = (ndviDim       != pdal::Dimension::Id::Unknown);
+    bool hasC2M       = (c2MDim       != pdal::Dimension::Id::Unknown);
 
     if (hasRedFused)   {
         r->red_fused.resize(count);
@@ -411,6 +413,10 @@ PointSet *pdalReadPointSet(const std::string &filename) {
     if (hasNDVI) {
         r->ndvi.resize(count);
         std::cout << "NDVI dimension found\n";
+    }
+    if (hasC2M) {
+        r->c2m_signed_distances.resize(count);
+        std::cout << "C2M dimension found\n";
     }
     ////-------reserve spectrals end
 
@@ -460,6 +466,8 @@ PointSet *pdalReadPointSet(const std::string &filename) {
             r->red_edge[idx]    = pView->getFieldAs<float>(redEdgeDim, idx);
         if (hasNDVI)
             r->ndvi[idx]        = pView->getFieldAs<float>(ndviDim, idx);
+        if (hasC2M)
+            r->c2m_signed_distances[idx] = pView->getFieldAs<float>(c2MDim, idx);
                 // ----ends read spectral into  vector --------------------------------
     }
         

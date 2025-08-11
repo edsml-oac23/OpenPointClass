@@ -1,0 +1,1 @@
+cmd='/usr/bin/cmake;-DBUILD_STATIC_LIB=ON;-DCMAKE_INSTALL_PREFIX=/workspace/build-main/local;-GUnix Makefiles;<SOURCE_DIR><SOURCE_SUBDIR>'

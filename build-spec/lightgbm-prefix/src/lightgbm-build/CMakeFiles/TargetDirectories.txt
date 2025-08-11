@@ -1,0 +1,10 @@
+/workspace/build-spec/lightgbm-prefix/src/lightgbm-build/CMakeFiles/lightgbm_objs.dir
+/workspace/build-spec/lightgbm-prefix/src/lightgbm-build/CMakeFiles/lightgbm.dir
+/workspace/build-spec/lightgbm-prefix/src/lightgbm-build/CMakeFiles/lightgbm_capi_objs.dir
+/workspace/build-spec/lightgbm-prefix/src/lightgbm-build/CMakeFiles/_lightgbm.dir
+/workspace/build-spec/lightgbm-prefix/src/lightgbm-build/CMakeFiles/edit_cache.dir
+/workspace/build-spec/lightgbm-prefix/src/lightgbm-build/CMakeFiles/rebuild_cache.dir
+/workspace/build-spec/lightgbm-prefix/src/lightgbm-build/CMakeFiles/list_install_components.dir
+/workspace/build-spec/lightgbm-prefix/src/lightgbm-build/CMakeFiles/install.dir
+/workspace/build-spec/lightgbm-prefix/src/lightgbm-build/CMakeFiles/install/local.dir
+/workspace/build-spec/lightgbm-prefix/src/lightgbm-build/CMakeFiles/install/strip.dir

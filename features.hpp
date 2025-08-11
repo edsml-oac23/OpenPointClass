@@ -198,18 +198,18 @@ public:
 
 // // This is the HeighAboveGround from Cloud Compare (CC). Authors of the original code already 
 // have a HeightAbove feature, but mesh grid is better calculated in CC, so resulting in better performance.
-// class PointC2M : public Feature {
-// public:
-//     PointC2M(Scale *s) : Feature(s) {
-//         this->setName("point_c2m");
-//     };
-//     virtual float getValue(size_t i) {
-//         if (!s->pSet->hasC2MDistances()) {
-//             return 0.0f;  // Fallback if no C2M data (for safety)
-//         }
-//         return s->pSet->c2m_signed_distances[i];
-//     }
-// };
+class PointC2M : public Feature {
+public:
+    PointC2M(Scale *s) : Feature(s) {
+        this->setName("point_c2m");
+    };
+    virtual float getValue(size_t i) {
+        if (!s->pSet->hasC2M()) {
+            return 0.0f;  // Fallback if no C2M data (for safety)
+        }
+        return s->pSet->c2m_signed_distances[i];
+    }
+};
 
 
 

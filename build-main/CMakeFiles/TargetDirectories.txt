@@ -1,0 +1,10 @@
+/workspace/build-main/CMakeFiles/lightgbm.dir
+/workspace/build-main/CMakeFiles/libopc.dir
+/workspace/build-main/CMakeFiles/pctrain.dir
+/workspace/build-main/CMakeFiles/pcclassify.dir
+/workspace/build-main/CMakeFiles/edit_cache.dir
+/workspace/build-main/CMakeFiles/rebuild_cache.dir
+/workspace/build-main/CMakeFiles/list_install_components.dir
+/workspace/build-main/CMakeFiles/install.dir
+/workspace/build-main/CMakeFiles/install/local.dir
+/workspace/build-main/CMakeFiles/install/strip.dir

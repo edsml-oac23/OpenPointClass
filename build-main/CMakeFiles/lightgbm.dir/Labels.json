@@ -1,0 +1,43 @@
+{
+	"sources" : 
+	[
+		{
+			"file" : "/workspace/build-main/CMakeFiles/lightgbm"
+		},
+		{
+			"file" : "/workspace/build-main/CMakeFiles/lightgbm.rule"
+		},
+		{
+			"file" : "/workspace/build-main/CMakeFiles/lightgbm-complete.rule"
+		},
+		{
+			"file" : "/workspace/build-main/lightgbm-prefix/src/lightgbm-stamp/lightgbm-build.rule"
+		},
+		{
+			"file" : "/workspace/build-main/lightgbm-prefix/src/lightgbm-stamp/lightgbm-configure.rule"
+		},
+		{
+			"file" : "/workspace/build-main/lightgbm-prefix/src/lightgbm-stamp/lightgbm-download.rule"
+		},
+		{
+			"file" : "/workspace/build-main/lightgbm-prefix/src/lightgbm-stamp/lightgbm-install.rule"
+		},
+		{
+			"file" : "/workspace/build-main/lightgbm-prefix/src/lightgbm-stamp/lightgbm-mkdir.rule"
+		},
+		{
+			"file" : "/workspace/build-main/lightgbm-prefix/src/lightgbm-stamp/lightgbm-patch.rule"
+		},
+		{
+			"file" : "/workspace/build-main/lightgbm-prefix/src/lightgbm-stamp/lightgbm-update.rule"
+		}
+	],
+	"target" : 
+	{
+		"labels" : 
+		[
+			"lightgbm"
+		],
+		"name" : "lightgbm"
+	}
+}

@@ -1,0 +1,13 @@
+# Target labels
+ lightgbm
+# Source files and their labels
+/workspace/build-main/CMakeFiles/lightgbm
+/workspace/build-main/CMakeFiles/lightgbm.rule
+/workspace/build-main/CMakeFiles/lightgbm-complete.rule
+/workspace/build-main/lightgbm-prefix/src/lightgbm-stamp/lightgbm-build.rule
+/workspace/build-main/lightgbm-prefix/src/lightgbm-stamp/lightgbm-configure.rule
+/workspace/build-main/lightgbm-prefix/src/lightgbm-stamp/lightgbm-download.rule
+/workspace/build-main/lightgbm-prefix/src/lightgbm-stamp/lightgbm-install.rule
+/workspace/build-main/lightgbm-prefix/src/lightgbm-stamp/lightgbm-mkdir.rule
+/workspace/build-main/lightgbm-prefix/src/lightgbm-stamp/lightgbm-patch.rule
+/workspace/build-main/lightgbm-prefix/src/lightgbm-stamp/lightgbm-update.rule
