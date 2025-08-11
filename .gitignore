@@ -33,3 +33,8 @@
 
 build-main/
 build-spec/
+
+# Ignore LightGBM source code (external dependency)
+lightgbm-prefix/
+
+.devcontainer/
