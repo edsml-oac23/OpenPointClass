@@ -32,3 +32,17 @@
 *.app
 
 build/
+
+# Ignore build and outputs so you don’t accidentally commit them
+cat >> .gitignore <<'EOF'
+build-main/
+build-spec/
+local/
+*.bin
+opc_process/03_models/
+opc_process/04_predictions/
+opc_process/06_tuning_stats/*.png
+opc_process/06_tuning_stats/*.json
+opc_process/logs/
+EOF
+
