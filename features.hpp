@@ -197,7 +197,7 @@ public:
 
 
 // // This is the HeighAboveGround from Cloud Compare (CC). Authors of the original code already 
-// have a HeightAbove feature, but mesh grid is better calculated in CC, so resulting in better performance.
+// have a HeightAbove feature, but mesh grid is better calculated in CC. Therefore, I used the CC height above ground calculation instead of the pdal version. But for reproducibility purposes the implementation of the native pdal HAG is in my notebook and .py
 class PointC2M : public Feature {
 public:
     PointC2M(Scale *s) : Feature(s) {
