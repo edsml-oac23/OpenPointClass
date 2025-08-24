@@ -6,6 +6,8 @@
 *.lo
 *.o
 *.obj
+# Ignore compilation output
+build-*/
 
 # Precompiled Headers
 *.gch
